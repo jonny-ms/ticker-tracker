@@ -1,6 +1,6 @@
 import * as React from 'react';
-import useDebounce from '../hooks/useDebounce';
-import Loading from './Loading'
+import useDebounce from '../../hooks/useDebounce';
+import { Loading } from '../Loading'
 
 export function SearchBar(props) {
   const [value, setValue] = React.useState("")
@@ -14,7 +14,7 @@ export function SearchBar(props) {
   return (
     <div>
       <form onSubmit={e => e.preventDefault()}>
-        <input value={value} onChange={event => setValue(event.target.value)}/>
+        <input value={value} onChange={event => setValue(event.target.value)} placeholder="Search name or symbol"/>
         <Loading show={props.loading} />
       </form>
     </div>

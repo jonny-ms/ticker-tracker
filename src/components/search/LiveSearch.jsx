@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { SearchBar } from './SearchBar';
 import { Results } from './Results';
-import axios from 'axios';
-import { autoComplete } from '../db/mock-api'
+// import axios from 'axios';
+import { autoComplete } from '../../db/mockApi'
 
 export function LiveSearch(props) {
   const [search, setSearch] = React.useState({
@@ -31,7 +31,7 @@ export function LiveSearch(props) {
     //   responseType: 'stream',
     //   headers: {
     //     'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
-    //     'x-rapidapi-key': process.env.REACT_APP_API_KEY
+    //     'x-rapidapi-key': process.env.REACT_APP_YAHOO_FINANCE_API_KEY
     //   }
     // })
     // .then(({data}) => {
@@ -76,7 +76,7 @@ export function LiveSearch(props) {
       onSearch={term => setSearch({...search, term})} 
       loading={search.loading}
     />
-    <Results results={search.results} getQuote={props.getQuote}/>
+    <Results results={search.results} />
   </div>
   )
 

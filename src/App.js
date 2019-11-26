@@ -1,26 +1,22 @@
 import * as React from 'react';
-import { LiveSearch } from './components/LiveSearch'
-import { Quote } from './components/Quote'
-import './App.css';
+import { LiveSearch } from './components/search/LiveSearch'
+import { Quote } from './components/stock_show/Quote'
+import './App.scss';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-const QUOTE = 'QUOTE'
-const SEARCH ='SEARCH'
 
 function App() {
-
-  const [mode, setMode] = React.useState(SEARCH);
-  const [ticker, setTicker] = React.useState('')
-
-  const getQuote = ticker => {
-    setMode(QUOTE)
-    setTicker(ticker)
-  }
   
   return (
-    <div className="App">
-      {mode === SEARCH && <LiveSearch getQuote={getQuote}/>}
-      {mode === QUOTE && <Quote ticker={ticker}/>}
-    </div>
+    <Router>
+      <div className="App">
+        <h1>My Stock Tracker App</h1>
+        <Switch>
+          <Route path='/' exact component={LiveSearch}/>
+          <Route path='/stock/:ticker' component={Quote}/>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
