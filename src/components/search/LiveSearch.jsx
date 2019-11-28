@@ -71,7 +71,7 @@ export function LiveSearch(props) {
 }, [search.term]);
 
   return(
-    <div>
+    <div className='live-search'>
     <SearchBar 
       onSearch={term => setSearch({...search, term})} 
       loading={search.loading}
