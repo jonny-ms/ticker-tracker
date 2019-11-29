@@ -1,67 +1,69 @@
 import * as React from 'react'
 import * as V from 'victory'
-import { intraOneDay } from '../../db/mockApi'
+import moment from 'moment'
 
-export function Chart() {
+export function Chart(props) {
   
-  const [intraDay, setIntraDay] = React.useState([])
-  const [domain, setDomain] = React.useState([])
-  const [min, setMin] = React.useState()
-  const [max, setMax] = React.useState()
+  const [chartData, setChartData] = React.useState([])
+  const [yDomain, setYDomain] = React.useState([])
   
   React.useEffect(() => {
 
-    let parsedData = []
-    // let range = []
-    let minimum = 0
-    let maximum = 0
+    console.log('in chart', props.data)
     
-    for (let data in intraOneDay) {
-      // if (range.length === 0) {
-        // range.push(intraOneDay[data].close, intraOneDay[data].close)
-      // }
-      if (minimum === 0) {
-        minimum = intraOneDay[data].close
-        maximum = intraOneDay[data].close
+    let parsedData = []
+    let yRange = []
+    
+    for (let i in props.data) {
+      if (yRange.length === 0) {
+        yRange.push(props.data[i].close, props.data[i].close)
       }
-      // range = [Math.min(range[0], intraOneDay[data].close), Math.max(range[1], intraOneDay[data].close)]
-      minimum = Math.min(minimum, intraOneDay[data].close)
-      maximum = Math.max(maximum, intraOneDay[data].close)
-      parsedData.push({x:data, y:Number(intraOneDay[data].close)})
+      yRange = [Math.min(yRange[0], props.data[i].close), Math.max(yRange[1], props.data[i].close)]
+      parsedData.unshift({x:i, y:Number(props.data[i].close)})
     }
 
-    // setDomain(range)
-    setMin(minimum)
-    setMax(maximum)
-    setIntraDay(parsedData)
+    setYDomain(yRange)
+    setChartData(parsedData)
     
-  }, [])
+  }, [props.data])
 
 
+  // const Container = V.createContainer("voronoi", "cursor")
   
   return(
     <>
-      {intraDay[0] &&
+      {chartData[0] &&
+      <V.VictoryGroup
+      containerComponent={
+        <V.VictoryVoronoiContainer
+        labels={({ datum }) => moment(datum.x, 'YYYY-MM-DD HH:mm:ss').format('lll')}
+
+        />
+        // <Container
+          // labels={({ datum }) => moment(datum.x, 'YYYY-MM-DD HH:mm:ss').format('lll')}
+          // voronoiDimension="x"
+          // cursorDimension="x"
+  
+          // />
+        }
+      >
       <V.VictoryArea 
         theme={V.VictoryTheme.material}
-        data={intraDay}
+        data={chartData}
         interpolation={"linear"}
-        domain={{x:0, y:[min, max]}}
+        domain={{x:0, y:yDomain}}
         style={{
           data: {
-            fill: "#98c5c7"
+            fill: "#98c5c7", stroke: "#77dab2",strokeWidth: 2
           }}}
-        containerComponent={
-          <V.VictoryVoronoiContainer
-            labels={({ datum }) => datum.x}
-          />
-        }
         animate={{
           duration: 1000,
           // onLoad: { duration: 1000 }
         }}
+   
         />
-        }
+      </ V.VictoryGroup>
+      }
     </>
   )
 }
