@@ -7,7 +7,7 @@ export function QuoteHeader(props) {
         <p>{props.quote.symbol}</p>
         <p>{props.quote.name}</p>
         {props.quote.price &&
-        <span>{props.quote.price} </span>
+        <span>{props.p} </span>
         }
         <span>{props.quote.currency}</span>
         <p>{props.quote.day_change} ({props.quote.change_pct}%)</p>

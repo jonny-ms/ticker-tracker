@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { SearchBar } from './SearchBar';
 import { Results } from './Results';
-// import axios from 'axios';
+import axios from 'axios';
 import { autoComplete } from '../../db/mockApi'
 
 export function LiveSearch(props) {
@@ -46,7 +46,7 @@ export function LiveSearch(props) {
     // })
     // .catch(error => {
     //   console.log(error)
-    //   // showError();
+      // showError();
     // });
 
     //!Mock fetch
