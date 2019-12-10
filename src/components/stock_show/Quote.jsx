@@ -160,7 +160,7 @@ export function Quote({ match }) {
 			)}
 			{search.chartData[scope.name] && (
 				<>
-					<Chart data={search.chartData[scope.name]} />
+					<Chart data={{ [scope.name]: search.chartData[scope.name] }} />
 					<Scope onChange={scope => setScope(scope)} />
 				</>
 			)}
