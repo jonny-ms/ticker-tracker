@@ -5,11 +5,13 @@ import moment from "moment";
 export function Chart(props) {
 	const [chartData, setChartData] = React.useState([]);
 	const [marketOpen, setMarketOpen] = React.useState(null);
-	const [temp, setTemp] = React.useState();
 
 	React.useEffect(() => {
-		console.log("in chart", props.data);
 		const scope = Object.keys(props.data)[0];
+
+		if (chartData[0] && scope === chartData[0].id) return;
+
+		console.log("in chart", props.data);
 
 		let parsedData = [];
 
@@ -23,11 +25,10 @@ export function Chart(props) {
 			? // If day-scoped setMarketOpen to the first data-point's open value
 			  setMarketOpen(props.data[scope][Object.keys(props.data[scope])[0]].open)
 			: setMarketOpen(null);
-	}, [props.data]);
+	}, [props.data, chartData]);
 
 	return (
 		<>
-			{temp && <p>{temp}</p>}
 			<div style={{ height: "40vh" }}>
 				<ResponsiveLine
 					data={chartData}
@@ -39,27 +40,31 @@ export function Chart(props) {
 					enableGridX={false}
 					enableGridY={false}
 					enablePoints={false}
-					// colors={{ scheme: "blues" }}
 					enableArea={true}
 					useMesh={true}
 					crosshairType="x"
-					// onClick={point => setTemp(point.data.y)}
-					onMouseMove={point => setTemp(point.data.y)}
-					// onMouseEnter={(p, e) => console.log("Enter", p, e)}
+					onMouseMove={point => props.onChange(point.data.y)}
 					markers={
 						marketOpen
 							? [
 									{
 										axis: "y",
 										value: marketOpen,
-										lineStyle: { stroke: "#b0413e", strokeWidth: 2 },
+										lineStyle: {
+											stroke: "grey",
+											strokeWidth: 2,
+											strokeDasharray: "5, 10",
+											strokeOpacity: 0.5
+										},
 										legend: "open",
-										legendOrientation: "horizontal"
+										legendOrientation: "vertical"
 									}
 							  ]
 							: []
 					}
-					tooltip={({ point }) => <strong>{point.data.xFormatted}</strong>}
+					tooltip={({ point }) => (
+						<span className="tooltip">{point.data.xFormatted}</span>
+					)}
 				/>
 			</div>
 		</>

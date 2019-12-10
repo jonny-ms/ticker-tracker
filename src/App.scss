@@ -1,63 +1,67 @@
-@import './styles/animations.scss';
-@import './styles/variables.scss';
+@import "./styles/animations.scss";
+@import "./styles/variables.scss";
 
 .App {
-  text-align: center;
+	text-align: center;
 }
 
 .spinner {
-  animation: rotate 1s linear infinite;
-  height: 2rem;
-  margin-left: 1rem;
+	animation: rotate 1s linear infinite;
+	height: 2rem;
+	margin-left: 1rem;
 }
 
 .live-search {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .search-bar {
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: space-between;
+	// display: flex;
+	// flex-direction: row;
+	// justify-content: space-between;
 
-  height: 2rem;
-  width: 90%;
+	height: 2rem;
+	width: 90%;
 }
 
 .search-results {
-  align-content: center;
-  width: 90%;
-  &-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    color: $black;
-  }
+	align-content: center;
+	width: 90%;
+	&-item {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		color: $black;
+	}
 }
-  
+
 p {
-  margin: 5px;
+	margin: 5px;
 }
 
 h4 {
-  text-align: left;
-  margin: 20px 5px 5px 5px;
+	text-align: left;
+	margin: 20px 5px 5px 5px;
 }
 
 input {
-  border: none;
-  border-bottom: 1px solid grey;
-  width: 80%;
-  outline: none;
-  height: 2rem;
-  margin-left: 5px;
+	border: none;
+	border-bottom: 1px solid grey;
+	width: 80%;
+	outline: none;
+	height: 2rem;
+	margin-left: 5px;
 }
 
 .badge {
-  border-radius: 50%;
-  background-color: $badge-color;
-  color: $white;
-  display: inline-block;
+	border-radius: 50%;
+	background-color: $badge-color;
+	color: $white;
+	display: inline-block;
+}
+
+.tooltip {
+	background-color: transparent;
 }
