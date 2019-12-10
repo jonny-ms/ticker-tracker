@@ -70,7 +70,7 @@ export function Quote({ match }) {
 	//!Scoped data for chart
 	React.useEffect(() => {
 		if (search.chartData[scope.name]) return;
-		console.log("in scoped data request", scope);
+		console.log("in scoped data request", scope, search.chartData);
 
 		//!Commented out axios call
 		// if (['1D', '1W'].includes(scope.name)) {
