@@ -5,6 +5,7 @@ import { Loading } from "../Loading";
 import { Chart } from "./Chart";
 import { Scope } from "./Scope";
 import { quote, intraOneDay, intraOneWeek } from "../../db/mockApi";
+import { AddStock } from "../add_stock/AddStock";
 
 export function Quote({ match }) {
 	const [search, setSearch] = React.useState({
@@ -156,7 +157,10 @@ export function Quote({ match }) {
 		<>
 			<Loading show={search.loading} />
 			{search.realTimeQuote.name && (
-				<QuoteHeader quote={search.realTimeQuote} />
+				<>
+					<AddStock />
+					<QuoteHeader quote={search.realTimeQuote} />
+				</>
 			)}
 			{search.chartData[scope.name] && (
 				<>
