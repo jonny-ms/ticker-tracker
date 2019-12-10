@@ -1,10 +1,9 @@
 import * as React from "react";
-import axios from "axios";
+// import axios from "axios";
 import { QuoteHeader } from "./QuoteHeader";
 import { Loading } from "../Loading";
 import { Chart } from "./Chart";
 import { Scope } from "./Scope";
-import moment from "moment";
 import { quote, intraOneDay, intraOneWeek } from "../../db/mockApi";
 
 export function Quote({ match }) {
@@ -157,8 +156,10 @@ export function Quote({ match }) {
 		<>
 			<Loading show={search.loading} />
 			{search.realTimeQuote.name && (
+				<QuoteHeader quote={search.realTimeQuote} />
+			)}
+			{search.chartData[scope.name] && (
 				<>
-					<QuoteHeader quote={search.realTimeQuote} />
 					<Chart data={search.chartData[scope.name]} />
 					<Scope onChange={scope => setScope(scope)} />
 				</>
