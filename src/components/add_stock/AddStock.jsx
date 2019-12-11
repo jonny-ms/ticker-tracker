@@ -1,19 +1,25 @@
 import * as React from "react";
+import Popup from "reactjs-popup";
+import { NewHoldingForm } from "./NewHoldingForm";
 
-export function AddStock() {
-	const [open, setOpen] = React.useState(false);
-
-	const handleClick = () => {
-		open ? setOpen(false) : setOpen(true);
+export function AddStock({ data }) {
+	const addToWatchlist = () => {
+		// TODO POST to watchlist
+		console.log(`Added ${data.symbol} to watchlist`);
 	};
 
 	return (
-		<>
-			<button onClick={handleClick}>+</button>
+		<Popup
+			trigger={<button className="add-stock-button">+</button>}
+			position="bottom center"
+			on="hover"
+		>
 			<div className="popup">
-				<p>Add to Watchlist</p>
-				<p>Add to Holdings</p>
+				<div onClick={addToWatchlist}>Add to Watchlist</div>
+				<Popup trigger={<div>Add to Holdings</div>} modal closeOnDocumentClick>
+					<NewHoldingForm data={data} />
+				</Popup>
 			</div>
-		</>
+		</Popup>
 	);
 }

@@ -23,6 +23,8 @@ export function Quote({ match }) {
 		apiRange: 1
 	});
 
+	const [dynamicValue, setDynamicValue] = React.useState(null);
+
 	//!Real-time data for header (will include all initial data, ie. stats, news, etc.)
 	React.useEffect(() => {
 		console.log("in real-time data request", search.term);
@@ -70,8 +72,11 @@ export function Quote({ match }) {
 
 	//!Scoped data for chart
 	React.useEffect(() => {
+		setDynamicValue(null);
+
 		if (search.chartData[scope.name]) return;
-		console.log("in scoped data request", scope);
+
+		console.log("in scoped data request", scope, search.chartData);
 
 		//!Commented out axios call
 		// if (['1D', '1W'].includes(scope.name)) {
@@ -158,13 +163,19 @@ export function Quote({ match }) {
 			<Loading show={search.loading} />
 			{search.realTimeQuote.name && (
 				<>
-					<AddStock />
-					<QuoteHeader quote={search.realTimeQuote} />
+					<AddStock data={search.realTimeQuote} />
+					<QuoteHeader
+						quote={search.realTimeQuote}
+						dynamicValue={dynamicValue}
+					/>
 				</>
 			)}
 			{search.chartData[scope.name] && (
 				<>
-					<Chart data={search.chartData[scope.name]} />
+					<Chart
+						data={{ [scope.name]: search.chartData[scope.name] }}
+						onChange={value => setDynamicValue(value)}
+					/>
 					<Scope onChange={scope => setScope(scope)} />
 				</>
 			)}
