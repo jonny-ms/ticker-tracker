@@ -4,11 +4,9 @@ import moment from "moment";
 
 export function Chart(props) {
 	const [chartData, setChartData] = React.useState([]);
-	const [marketOpen, setMarketOpen] = React.useState(null);
+	const scope = Object.keys(props.data)[0];
 
 	React.useEffect(() => {
-		const scope = Object.keys(props.data)[0];
-
 		if (chartData[0] && scope === chartData[0].id) return;
 
 		console.log("in chart", props.data);
@@ -20,11 +18,6 @@ export function Chart(props) {
 		}
 
 		setChartData([{ id: scope, data: parsedData }]);
-
-		scope === "1D"
-			? // If day-scoped setMarketOpen to the first data-point's open value
-			  setMarketOpen(props.data[scope][Object.keys(props.data[scope])[0]].open)
-			: setMarketOpen(null);
 	}, [props.data, chartData]);
 
 	return (
@@ -42,14 +35,15 @@ export function Chart(props) {
 					enablePoints={false}
 					enableArea={true}
 					useMesh={true}
+					animate={true}
 					crosshairType="x"
 					onMouseMove={point => props.onChange(point.data.y)}
 					markers={
-						marketOpen
+						scope === "1D"
 							? [
 									{
 										axis: "y",
-										value: marketOpen,
+										value: props.marketOpen,
 										lineStyle: {
 											stroke: "grey",
 											strokeWidth: 2,

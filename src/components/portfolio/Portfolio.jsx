@@ -1,6 +1,15 @@
 import * as React from "react";
 
 export function Portfolio() {
+	// const [portfolio, setPortfolio] = React.useState({})
+
+	// React.useEffect(
+
+	// Axios call for portfolio
+	// setPortfolio
+
+	// )
+
 	return (
 		<>
 			<p>Last Updated at: {"{...}"}</p>
@@ -40,11 +49,11 @@ export function Portfolio() {
 				<article>
 					<div>
 						<span>companyName</span>
-						<span>valueChange</span>
+						<span> valueChange</span>
 					</div>
 					<div>
 						<span>exchange | ticker</span>
-						<span>percentChange</span>
+						<span> percentChange</span>
 					</div>
 					<p>BUY 22 @ 47.24</p>
 				</article>

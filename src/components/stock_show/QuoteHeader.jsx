@@ -2,9 +2,9 @@ import * as React from "react";
 
 export function QuoteHeader(props) {
 	const valueDiff =
-		Math.round((props.quote.price - props.dynamicValue) * 100) / 100;
+		Math.round((props.dynamicValue - props.quote.price_open) * 100) / 100;
 	const valueChange =
-		Math.round((props.dynamicValue / props.quote.price - 1) * 10000) / 100;
+		Math.round((props.dynamicValue / props.quote.price_open - 1) * 10000) / 100;
 
 	return (
 		<>
