@@ -1,14 +1,28 @@
 import * as React from "react";
+import axios from "axios";
+import { mockPortfolio } from "../../db/mockApi";
 
 export function Portfolio() {
-	// const [portfolio, setPortfolio] = React.useState({})
+	const [portfolioDb, setPortfolioDb] = React.useState([]);
+	const [portfolioData, setPortfolioData] = React.useState([]);
 
-	// React.useEffect(
+	React.useEffect(() => {
+		//! Backend call for user portfolio
+		setPortfolioDb(mockPortfolio);
 
-	// Axios call for portfolio
-	// setPortfolio
-
-	// )
+		//! Api call
+		const searchTerm = mockPortfolio
+			.map(position => {
+				return position.ticker;
+			})
+			.join();
+		axios({
+			method: "get",
+			url: `https://api.worldtradingdata.com/api/v1/stock?symbol=${searchTerm}&api_token=${process.env.REACT_APP_WORLD_TRADING_API_KEY}`
+		}).then(({ data }) => {
+			setPortfolioData(data.data);
+		});
+	}, []);
 
 	return (
 		<>
@@ -45,18 +59,24 @@ export function Portfolio() {
 			</div>
 			{/* //! This section is the PortfolioList */}
 			<section>
-				{/* //! This article is a PortfolioItem */}
-				<article>
-					<div>
-						<span>companyName</span>
-						<span> valueChange</span>
-					</div>
-					<div>
-						<span>exchange | ticker</span>
-						<span> percentChange</span>
-					</div>
-					<p>BUY 22 @ 47.24</p>
-				</article>
+				{portfolioData.map(position => {
+					/* //! This article is a PortfolioItem */
+					return (
+						<article>
+							<div>
+								<span>{position.name}</span>
+								<span> valueChange</span>
+							</div>
+							<div>
+								<span>
+									{position.stock_exchange_short} | {position.symbol}
+								</span>
+								<span> percentChange</span>
+							</div>
+							<p>BUY 22 @ 47.24</p>
+						</article>
+					);
+				})}
 			</section>
 		</>
 	);
