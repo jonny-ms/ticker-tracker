@@ -471,3 +471,20 @@ const intraOneWeek = {
 }
 
 exports.intraOneWeek = intraOneWeek
+
+
+const mockPortfolio = [{
+
+  ticker: 'GOOG',
+  amount: 2,
+  price: 1404.54,
+  date: '2019-01-08'
+  
+},
+{
+  ticker: 'MSFT',
+  amount: 4,
+  price: 125.22,
+  date: '2019-06-05'
+}]
+exports.mockPortfolio = mockPortfolio
