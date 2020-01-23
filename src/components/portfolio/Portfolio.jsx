@@ -59,7 +59,7 @@ export function Portfolio() {
 			</div>
 			{/* //! This section is the PortfolioList */}
 			<section>
-				{portfolioData.map(position => {
+				{portfolioDb.map(position => {
 					/* //! This article is a PortfolioItem */
 					return (
 						<article>
