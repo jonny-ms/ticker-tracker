@@ -541,3 +541,4 @@ timezone_name: "America/New_York",
 volume: "21589170",
 volume_avg: "22321950"
 }]
+exports.mockPortfolioData = mockPortfolioData
