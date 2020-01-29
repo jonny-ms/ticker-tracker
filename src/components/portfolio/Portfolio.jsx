@@ -1,6 +1,8 @@
 import * as React from "react";
 import axios from "axios";
-import { mockPortfolio } from "../../db/mockApi";
+import { mockPortfolio, mockPortfolioData } from "../../db/mockApi";
+import moment from "moment";
+import { Link } from "react-router-dom";
 
 export function Portfolio() {
 	const [portfolioDb, setPortfolioDb] = React.useState([]);
@@ -23,161 +25,192 @@ export function Portfolio() {
 
 		//! Api call
 		//Make API call for realtime data of all tickers belonging to user
-		const searchTerm = portfolioDb
-			.map(position => {
-				return position.ticker;
-			})
-			.join();
-		axios({
-			method: "get",
-			url: `https://api.worldtradingdata.com/api/v1/stock?symbol=${searchTerm}&api_token=${process.env.REACT_APP_WORLD_TRADING_API_KEY}`
-		}).then(({ data }) => {
-			console.log(data.data);
+		// const searchTerm = portfolioDb
+		// .map(position => {
+		// return position.ticker;
+		// })
+		// .join();
+		// axios({
+		// method: "get",
+		// url: `https://api.worldtradingdata.com/api/v1/stock?symbol=${searchTerm}&api_token=${process.env.REACT_APP_WORLD_TRADING_API_KEY}`
+		// }).then(({ data }) => {
+		// console.log(data.data);
 
-			for (let i in portfolioDb) {
-				const result = data.data[i];
-				portfolioDb[i] = {
-					name: result.name,
-					current_price: Number(result.price),
-					day_change: Number(result.day_change),
-					change_pct: Number(result.change_pct),
-					currency: result.currency,
-					stock_exchange_short: result.stock_exchange_short,
-					...portfolioDb[i]
-				};
-			}
+		for (let i in portfolioDb) {
+			// const result = data.data[i];
+			const result = mockPortfolioData[i];
+			portfolioDb[i] = {
+				name: result.name,
+				current_price: Number(result.price),
+				day_change: Number(result.day_change),
+				change_pct: Number(result.change_pct),
+				currency: result.currency,
+				stock_exchange_short: result.stock_exchange_short,
+				...portfolioDb[i]
+			};
+		}
 
-			setMarketValue(
-				Math.round(
-					portfolioDb.reduce((a, b) => {
-						return a + b.current_price * b.amount;
-					}, 0) * 100
-				) / 100
-			);
+		setMarketValue(
+			Math.round(
+				portfolioDb.reduce((a, b) => {
+					return a + b.current_price * b.amount;
+				}, 0) * 100
+			) / 100
+		);
 
-			setPortfolioCost(
-				Math.round(
-					portfolioDb.reduce((a, b) => {
-						return a + b.price * b.amount;
-					}, 0) * 100
-				) / 100
-			);
+		setPortfolioCost(
+			Math.round(
+				portfolioDb.reduce((a, b) => {
+					return a + b.price * b.amount;
+				}, 0) * 100
+			) / 100
+		);
 
-			setPortfolioDayChange(
-				Math.round(
-					portfolioDb.reduce((a, b) => {
-						return a + b.day_change * b.amount;
-					}, 0) * 100
-				) / 100
-			);
+		setPortfolioDayChange(
+			Math.round(
+				portfolioDb.reduce((a, b) => {
+					return a + b.day_change * b.amount;
+				}, 0) * 100
+			) / 100
+		);
 
-			setPortfolioPercentChange(
-				Math.round(
-					portfolioDb.reduce((a, b) => {
-						return a + b.change_pct;
-					}, 0) * 100
-				) / 100
-			);
+		setPortfolioPercentChange(
+			Math.round(
+				portfolioDb.reduce((a, b) => {
+					return a + b.change_pct;
+				}, 0) * 100
+			) / 100
+		);
 
-			console.log("portfolioDb", portfolioDb);
-		});
+		console.log("portfolioDb", portfolioDb);
+		// });
 	}, [portfolioDb]);
 
+	// let tabStyle = "tab";
+	// scope === "Daily" ? (tabStyle += " daily") : (tabStyle += " open");
+
 	return (
-		<>
-			{portfolioDb[0] && (
-				<>
-					<p>Last Updated at: {"{...}"}</p>
-					{portfolioDb[0].current_price && (
+		<div className="list">
+			{portfolioDb[0] && portfolioDb[0].current_price && (
+				<section className="portfolio">
+					<h2>Portfolio</h2>
+					<hr />
+					{/* <p>Last Updated at: {moment().format("LLLL")}</p> */}
+					<header>
 						<div>
-							<span>Market Value --- </span>
-							<span>{marketValue}</span>
+							<h3>Market Value</h3>
+							<h3>{marketValue}</h3>
 						</div>
-					)}
-					<div>
-						<span>Daily (P/L) --- </span>
-						<span>
-							{portfolioDayChange} {portfolioPercentChange} %
-						</span>
-					</div>
-					<div>
-						<span>Open (P/L) --- </span>
-						<span>
-							{Math.round((marketValue - portfolioCost) * 100) / 100}{" "}
-							{Math.round((marketValue / portfolioCost - 1) * 10000) / 100} %
-						</span>
-					</div>
+						<div>
+							<h4>Daily (P/L)</h4>
+							<h4>
+								{portfolioDayChange} ({portfolioPercentChange}%)
+							</h4>
+						</div>
+						<div>
+							<h4>Open (P/L)</h4>
+							<h4>
+								{Math.round((marketValue - portfolioCost) * 100) / 100} (
+								{Math.round((marketValue / portfolioCost - 1) * 10000) / 100}%)
+							</h4>
+						</div>
+					</header>
 					{/* //! Toggle between different views. Open positions. Closed positions. What views/info do I want to see? Probably not a select tag if only two views*/}
 					<div>
 						<select>
-							<option>Open</option>
-							<option>Close</option>
+							<option>Open Positions</option>
+							<option>Closed Positions</option>
 						</select>
-					</div>
 
-					{/* //! Tab to set scope*/}
-					<div>
-						<button onClick={() => setScope("Daily")}>Daily</button>
-						<button onClick={() => setScope("Open")}>Open</button>
+						{/* //! Tab to set scope*/}
+						<div>
+							<button
+								onClick={() => setScope("Daily")}
+								// className={tabStyle}
+								autoFocus
+							>
+								Daily
+							</button>
+							<button
+								onClick={() => setScope("Open")}
+								// className={tabStyle}
+							>
+								Open
+							</button>
+						</div>
 					</div>
 
 					{/* //! This section is the PortfolioList */}
-					<section>
+					<main>
 						{portfolioDb.map(position => {
 							/* //! This article is a PortfolioItem */
 							if (scope === "Daily") {
 								return (
-									<article key={position.ticker}>
-										<div>
-											<span>{position.name}</span>
-											<span>
-												{position.day_change}
-												{position.currency}
-											</span>
-										</div>
-										<div>
-											<span>
-												{position.stock_exchange_short} | {position.ticker}
-											</span>
-											<span> {position.change_pct} % </span>
-										</div>
-										<p>
-											BUY {position.amount} @ {position.price}
-										</p>
-									</article>
+									<>
+										<Link
+											to={{
+												pathname: `/position/${position.ticker}`,
+												state: { position }
+											}}
+											key={position.ticker}
+										>
+											<article>
+												<div>
+													<h4>{position.name}</h4>
+													<h4>
+														{position.day_change} {position.currency}
+													</h4>
+												</div>
+												<div>
+													<h5>
+														{position.stock_exchange_short} | {position.ticker}
+													</h5>
+													<h5> {position.change_pct}% </h5>
+												</div>
+												<h5>
+													BUY {position.amount} @ {position.price}
+												</h5>
+											</article>
+										</Link>
+										<hr />
+									</>
 								);
 							} else {
 								return (
-									<article key={position.ticker}>
-										<div>
-											<span>{position.name}</span>
-											<span>
-												{Math.round(position.current_price - position.price) *
-													position.amount}
-												{position.currency}
-											</span>
-										</div>
-										<div>
-											<span>
-												{position.stock_exchange_short} | {position.ticker}
-											</span>
-											<span>
-												{Math.round(
-													(position.current_price / position.price - 1) * 10000
-												) / 100}
-												%
-											</span>
-										</div>
-										<p>
-											BUY {position.amount} @ {position.price}
-										</p>
-									</article>
+									<>
+										<article key={position.ticker}>
+											<div>
+												<h4>{position.name}</h4>
+												<h4>
+													{Math.round(position.current_price - position.price) *
+														position.amount}
+													{position.currency}
+												</h4>
+											</div>
+											<div>
+												<h5>
+													{position.stock_exchange_short} | {position.ticker}
+												</h5>
+												<h5>
+													{Math.round(
+														(position.current_price / position.price - 1) *
+															10000
+													) / 100}
+													%
+												</h5>
+											</div>
+											<h5>
+												BUY {position.amount} @ {position.price}
+											</h5>
+										</article>
+										<hr />
+									</>
 								);
 							}
 						})}
-					</section>
-				</>
+					</main>
+				</section>
 			)}
-		</>
+		</div>
 	);
 }
