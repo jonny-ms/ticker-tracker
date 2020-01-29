@@ -103,16 +103,45 @@ export function Portfolio() {
 						</div>
 						<div>
 							<h4>Daily (P/L)</h4>
-							<h4>
-								{portfolioDayChange} ({portfolioPercentChange}%)
-							</h4>
+							{portfolioDayChange > 0 && (
+								<h4 className="profit">
+									{portfolioDayChange} ({portfolioPercentChange}%)
+								</h4>
+							)}
+							{portfolioDayChange < 0 && (
+								<h4 className="loss">
+									{portfolioDayChange} ({portfolioPercentChange}%)
+								</h4>
+							)}
+							{portfolioDayChange === 0 && (
+								<h4 className="break-even">
+									{portfolioDayChange} ({portfolioPercentChange}%)
+								</h4>
+							)}
 						</div>
 						<div>
 							<h4>Open (P/L)</h4>
-							<h4>
-								{Math.round((marketValue - portfolioCost) * 100) / 100} (
-								{Math.round((marketValue / portfolioCost - 1) * 10000) / 100}%)
-							</h4>
+							{marketValue - portfolioCost > 0 && (
+								<h4 className="profit">
+									{Math.round((marketValue - portfolioCost) * 100) / 100} (
+									{Math.round((marketValue / portfolioCost - 1) * 10000) / 100}
+									%)
+								</h4>
+							)}
+							{marketValue - portfolioCost < 0 && (
+								<h4 className="loss">
+									{Math.round((marketValue - portfolioCost) * 100) / 100} (
+									{Math.round((marketValue / portfolioCost - 1) * 10000) / 100}
+									%)
+								</h4>
+							)}
+							{marketValue - portfolioCost === 0 && (
+								<h4 className="break-even">
+									{Math.round((marketValue - portfolioCost) * 100) / 100} (
+									{Math.round((marketValue / portfolioCost - 1) * 10000) / 100}
+									%)
+								</h4>
+							)}
 						</div>
 					</header>
 					{/* //! Toggle between different views. Open positions. Closed positions. What views/info do I want to see? Probably not a select tag if only two views*/}
@@ -157,15 +186,37 @@ export function Portfolio() {
 											<article>
 												<div>
 													<h4>{position.name}</h4>
-													<h4>
-														{position.day_change} {position.currency}
-													</h4>
+													{position.day_change > 0 && (
+														<h4 className="profit">
+															{position.day_change} {position.currency}
+														</h4>
+													)}
+													{position.day_change < 0 && (
+														<h4 className="loss">
+															{position.day_change} {position.currency}
+														</h4>
+													)}
+													{position.day_change === 0 && (
+														<h4 className="break-even">
+															{position.day_change} {position.currency}
+														</h4>
+													)}
 												</div>
 												<div>
 													<h5>
 														{position.stock_exchange_short} | {position.ticker}
 													</h5>
-													<h5> {position.change_pct}% </h5>
+													{position.change_pct > 0 && (
+														<h5 className="profit"> {position.change_pct}% </h5>
+													)}
+													{position.change_pct < 0 && (
+														<h5 className="loss"> {position.change_pct}% </h5>
+													)}
+													{position.change_pct === 0 && (
+														<h5 className="break-even">
+															{position.change_pct}%
+														</h5>
+													)}
 												</div>
 												<h5>
 													BUY {position.amount} @ {position.price}
@@ -178,31 +229,79 @@ export function Portfolio() {
 							} else {
 								return (
 									<>
-										<article key={position.ticker}>
-											<div>
-												<h4>{position.name}</h4>
-												<h4>
-													{Math.round(position.current_price - position.price) *
-														position.amount}
-													{position.currency}
-												</h4>
-											</div>
-											<div>
+										<Link
+											to={{
+												pathname: `/position/${position.ticker}`,
+												state: { position }
+											}}
+											key={position.ticker}
+										>
+											<article key={position.ticker}>
+												<div>
+													<h4>{position.name}</h4>
+													{position.current_price - position.price > 0 && (
+														<h4 className="profit">
+															{Math.round(
+																position.current_price - position.price
+															) * position.amount}{" "}
+															{position.currency}
+														</h4>
+													)}
+													{position.current_price - position.price < 0 && (
+														<h4 className="loss">
+															{Math.round(
+																position.current_price - position.price
+															) * position.amount}{" "}
+															{position.currency}
+														</h4>
+													)}
+													{position.current_price - position.price === 0 && (
+														<h4 className="break-even">
+															{Math.round(
+																position.current_price - position.price
+															) * position.amount}{" "}
+															{position.currency}
+														</h4>
+													)}
+												</div>
+												<div>
+													<h5>
+														{position.stock_exchange_short} | {position.ticker}
+													</h5>
+													{position.current_price / position.price - 1 > 0 && (
+														<h5 className="profit">
+															{Math.round(
+																(position.current_price / position.price - 1) *
+																	10000
+															) / 100}
+															%
+														</h5>
+													)}
+													{position.current_price / position.price - 1 < 0 && (
+														<h5 className="loss">
+															{Math.round(
+																(position.current_price / position.price - 1) *
+																	10000
+															) / 100}
+															%
+														</h5>
+													)}
+													{position.current_price / position.price - 1 ===
+														0 && (
+														<h5 className="break-even">
+															{Math.round(
+																(position.current_price / position.price - 1) *
+																	10000
+															) / 100}
+															%
+														</h5>
+													)}
+												</div>
 												<h5>
-													{position.stock_exchange_short} | {position.ticker}
+													BUY {position.amount} @ {position.price}
 												</h5>
-												<h5>
-													{Math.round(
-														(position.current_price / position.price - 1) *
-															10000
-													) / 100}
-													%
-												</h5>
-											</div>
-											<h5>
-												BUY {position.amount} @ {position.price}
-											</h5>
-										</article>
+											</article>
+										</Link>
 										<hr />
 									</>
 								);
