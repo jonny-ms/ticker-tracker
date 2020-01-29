@@ -5,6 +5,16 @@ export function PositionShow({ location }) {
 	console.log(location.state.position);
 	const position = location.state.position;
 
+	const editPosition = () => {
+		console.log("Edit");
+	};
+	const closePosition = () => {
+		console.log("Close");
+	};
+	const deletePosition = () => {
+		console.log("Delete");
+	};
+
 	return (
 		<div className="list">
 			<section className="portfolio">
@@ -119,9 +129,9 @@ export function PositionShow({ location }) {
 					<button>detailed quote</button>
 				</Link>
 				{/* //TODO */}
-				<button>edit position</button>
-				<button>delete position</button>
-				<button>close position</button>
+				<button onClick={editPosition}>edit position</button>
+				<button onClick={deletePosition}>delete position</button>
+				<button onClick={closePosition}>close position</button>
 			</section>
 		</div>
 	);

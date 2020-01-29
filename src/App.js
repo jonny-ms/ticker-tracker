@@ -2,14 +2,16 @@ import * as React from "react";
 import { Home } from "./components/Home";
 import { Quote } from "./components/stock_show/Quote";
 import "./App.scss";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { PositionShow } from "./components/portfolio/PortfolioShow";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { PositionShow } from "./components/portfolio/PositionShow";
 
 function App() {
 	return (
 		<Router>
 			<div className="App">
-				<h1>Tickr</h1>
+				<Link to={"/"}>
+					<h1>Tickr</h1>
+				</Link>
 				<Switch>
 					<Route path="/" exact component={Home} />
 					<Route path="/stock/:ticker" component={Quote} />

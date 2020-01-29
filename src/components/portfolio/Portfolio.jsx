@@ -90,7 +90,7 @@ export function Portfolio() {
 	// scope === "Daily" ? (tabStyle += " daily") : (tabStyle += " open");
 
 	return (
-		<div className="list">
+		<>
 			{portfolioDb[0] && portfolioDb[0].current_price && (
 				<section className="portfolio">
 					<h2>Portfolio</h2>
@@ -310,6 +310,6 @@ export function Portfolio() {
 					</main>
 				</section>
 			)}
-		</div>
+		</>
 	);
 }
