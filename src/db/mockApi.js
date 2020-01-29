@@ -542,3 +542,61 @@ volume: "21589170",
 volume_avg: "22321950"
 }]
 exports.mockPortfolioData = mockPortfolioData
+
+const mockWatchlistDb = ['AAPL', 'AMZN']
+exports.mockWatchlistDb = mockWatchlistDb
+
+const mockWatchlistData = [{
+  '52_week_high': "327.85",
+  '52_week_low': "160.23",
+  change_pct: "2.09",
+  close_yesterday: "317.69",
+  currency: "USD",
+  day_change: "6.65",
+  day_high: "327.85",
+  day_low: "321.38",
+  eps: "12.60",
+  gmt_offset: "-18000",
+  last_trade_time: "2020-01-29 15:59:33",
+  market_cap: "1421916372992",
+  name: "Apple Inc.",
+  pe: "25.75",
+  price: "324.34",
+  price_open: "324.45",
+  shares: "4384030208",
+  stock_exchange_long: "NASDAQ Stock Exchange",
+  stock_exchange_short: "NASDAQ",
+  symbol: "AAPL",
+  timezone: "EST",
+  timezone_name: "America/New_York",
+  volume: "50907516",
+  volume_avg: "32771333"
+},
+{
+  "52_week_high": "2035.80",
+  "52_week_low": "1566.76",
+  change_pct: "0.26",
+  close_yesterday: "1853.25",
+  currency: "USD",
+  day_change: "4.75",
+  day_high: "1874.75",
+  day_low: "1855.40",
+  eps: "22.57",
+  gmt_offset: "-18000",
+  last_trade_time: "2020-01-29 15:59:59",
+  market_cap: "921190793216",
+  name: "Amazon.com, Inc.",
+  pe: "82.33",
+  price: "1858.00",
+  price_open: "1864.00",
+  shares: "495796992",
+  stock_exchange_long: "NASDAQ Stock Exchange",
+  stock_exchange_short: "NASDAQ",
+  symbol: "AMZN",
+  timezone: "EST",
+  timezone_name: "America/New_York",
+  volume: "1852414",
+  volume_avg: "3250616"
+}]
+
+exports.mockWatchlistData = mockWatchlistData
