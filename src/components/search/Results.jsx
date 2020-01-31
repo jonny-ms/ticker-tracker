@@ -16,7 +16,7 @@ export function Results(props) {
 				props.results.map((result, i) => {
 					return (
 						<>
-							<Link to={`/stock/${result.symbol}`} key={i}>
+							<Link to={`/stocks/${result.symbol}`} key={i}>
 								<ResultItem result={result} />
 							</Link>
 							<hr />

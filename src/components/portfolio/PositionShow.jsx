@@ -125,7 +125,7 @@ export function PositionShow({ location }) {
 						BUY {position.amount} @ {position.price}
 					</h5>
 				</article>
-				<Link to={`/stock/${position.ticker}`}>
+				<Link to={`/stocks/${position.ticker}`}>
 					<button>detailed quote</button>
 				</Link>
 				{/* //TODO */}

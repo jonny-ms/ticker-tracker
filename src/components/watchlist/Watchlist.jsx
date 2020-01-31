@@ -35,7 +35,7 @@ export function Watchlist() {
 						{watchlistData.map(stock => {
 							return (
 								<>
-									<Link to={`/stock/${stock.symbol}`} key={stock.symbol}>
+									<Link to={`/stocks/${stock.symbol}`} key={stock.symbol}>
 										<article>
 											<div>
 												<h4>{stock.name}</h4>

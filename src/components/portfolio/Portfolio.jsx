@@ -146,9 +146,9 @@ export function Portfolio() {
 					</header>
 					{/* //! Toggle between different views. Open positions. Closed positions. What views/info do I want to see? Probably not a select tag if only two views*/}
 					<div>
-						<select>
-							<option>Open Positions</option>
-							<option>Closed Positions</option>
+						<select onChange={() => console.log("change")}>
+							<option value="Open">Open Positions</option>
+							<option value="Closed">Closed Positions</option>
 						</select>
 
 						{/* //! Tab to set scope*/}
