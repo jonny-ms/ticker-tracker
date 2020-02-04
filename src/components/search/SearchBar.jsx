@@ -1,6 +1,5 @@
 import * as React from "react";
 import useDebounce from "../../hooks/useDebounce";
-import { Loading } from "../Loading";
 
 export function SearchBar(props) {
 	const [value, setValue] = React.useState("");
@@ -17,8 +16,8 @@ export function SearchBar(props) {
 					alt="Search stocks by name or symbol"
 					type="text"
 				/>
+				<input type="button" value="Cancel" onClick={() => setValue("")} />
 			</form>
-			<Loading show={props.loading} />
 		</div>
 	);
 }

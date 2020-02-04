@@ -10,7 +10,7 @@ export function AddStock({ data }) {
 
 	return (
 		<Popup
-			trigger={<button className="add-stock-button">+</button>}
+			trigger={<img src="/images/add.svg" alt="add-stock-button" />}
 			position="bottom center"
 			on="hover"
 		>

@@ -18,9 +18,12 @@
 	width: 100%;
 }
 
-.search-bar {
-	height: 2rem;
-	width: 90%;
+.search {
+	border-bottom: 1px $grey solid;
+	&-bar {
+		height: 2rem;
+		width: 90%;
+	}
 }
 
 .search-results {
@@ -86,8 +89,6 @@ h2 {
 
 input {
 	border: none;
-	border-bottom: 1px solid grey;
-	width: 100%;
 	outline: none;
 	height: 2rem;
 }
@@ -125,17 +126,18 @@ nav {
 	justify-content: space-between;
 	align-items: center;
 	padding: 5%;
-	img {
-		border-radius: 50%;
-		width: 5vw;
-		&:hover {
-			cursor: pointer;
-		}
-		&:active {
-			transform: scale(1.1);
-		}
-	}
 	h1 {
 		margin: auto;
+	}
+}
+
+img {
+	border-radius: 50%;
+	width: 5vw;
+	&:hover {
+		cursor: pointer;
+	}
+	&:active {
+		transform: scale(1.1);
 	}
 }
