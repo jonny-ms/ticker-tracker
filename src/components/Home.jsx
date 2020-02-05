@@ -14,7 +14,6 @@ export function Home() {
 					<img src="/images/search-orange.svg" alt="search-stocks" />
 				</Link>
 			</nav>
-			<LiveSearch />
 			<div className="list">
 				<Portfolio />
 				<Watchlist />

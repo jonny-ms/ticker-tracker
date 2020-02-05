@@ -6,15 +6,14 @@
 }
 
 .spinner {
-	animation: rotate 1s linear infinite;
-	height: 2rem;
-	margin-left: 1rem;
+	animation: rotate 0.5s linear infinite;
+	width: 3rem;
+	margin: 1rem;
 }
 
 .live-search {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
+	justify-content: space-between;
 	width: 100%;
 }
 
@@ -34,6 +33,10 @@
 		flex-direction: row;
 		justify-content: space-between;
 	}
+}
+
+.undo-search-button {
+	height: 1rem;
 }
 
 .list {

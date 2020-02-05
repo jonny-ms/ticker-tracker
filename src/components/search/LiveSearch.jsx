@@ -19,8 +19,8 @@ export function LiveSearch({ handleSearch }) {
 			return;
 		}
 
-		handleSearch(prev => ({
-			...prev,
+		handleSearch(() => ({
+			results: [],
 			loading: true
 		}));
 
