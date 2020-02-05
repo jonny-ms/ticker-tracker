@@ -9,6 +9,7 @@ import { AddStock } from "../add_stock/AddStock";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { Stats } from "./Stats";
+import { NewsFeed } from "./NewsFeed";
 
 export function Quote({ match }) {
 	const [search, setSearch] = React.useState({
@@ -193,6 +194,7 @@ export function Quote({ match }) {
 					/>
 					<Scope onChange={scope => setScope(scope)} />
 					<Stats summary={search.realTimeQuote} />
+					<NewsFeed companyName={search.realTimeQuote.name} />
 				</>
 			)}
 		</>
