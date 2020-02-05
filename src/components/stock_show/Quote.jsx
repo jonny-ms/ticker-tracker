@@ -7,6 +7,7 @@ import { Scope } from "./Scope";
 import { quote, intraOneDay, intraOneWeek } from "../../db/mockApi";
 import { AddStock } from "../add_stock/AddStock";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 export function Quote({ match }) {
 	const [search, setSearch] = React.useState({
@@ -25,6 +26,8 @@ export function Quote({ match }) {
 	});
 
 	const [dynamicValue, setDynamicValue] = React.useState(null);
+
+	const [isWatched, setIsWatched] = React.useState(false);
 
 	//!Real-time data for header (will include all initial data, ie. stats, news, etc.)
 	React.useEffect(() => {
@@ -148,8 +151,28 @@ export function Quote({ match }) {
 		// asyncCall();
 	}, [scope]);
 
+	let watchLogoSrc = "/images/watch.svg";
+	let watchLogoAlt = "add-to-watchlist-button";
+	if (isWatched) {
+		watchLogoSrc = "/images/watched.svg";
+		watchLogoAlt = "remove-to-watchlist-button";
+	}
+
 	return (
 		<>
+			<nav>
+				{/* //Todo: onCLick make backend post, state of isWatched should default to true if stock is watched, banner should let user know it has been added to backend */}
+
+				<img
+					src={watchLogoSrc}
+					alt={watchLogoAlt}
+					onClick={() => {
+						setIsWatched(!isWatched);
+					}}
+				/>
+				{/* //Todo: onCLick goBack() */}
+				<img src="/images/close-cross.svg" alt="back-button" />
+			</nav>
 			<Loading show={search.loading} />
 			{search.realTimeQuote.name && (
 				<>
