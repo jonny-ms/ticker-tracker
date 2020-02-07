@@ -45,11 +45,19 @@ export function Scope(props) {
 	};
 
 	return (
-		<>
-			<button value={"1D"} onClick={() => props.onChange(oneDay)}>
+		<div className="scope">
+			<button
+				className="scope-button-is-active"
+				value={"1D"}
+				onClick={() => props.onChange(oneDay)}
+			>
 				1D
 			</button>
-			<button value={"1W"} onClick={() => props.onChange(oneWeek)}>
+			<button
+				className="scope-button"
+				value={"1W"}
+				onClick={() => props.onChange(oneWeek)}
+			>
 				1W
 			</button>
 			<button value={"1M"} onClick={() => props.onChange(oneMonth)}>
@@ -64,6 +72,6 @@ export function Scope(props) {
 			<button value={"5Y"} onClick={() => props.onChange(fiveYears)}>
 				5Y
 			</button>
-		</>
+		</div>
 	);
 }

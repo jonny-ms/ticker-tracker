@@ -192,9 +192,11 @@ export function Quote({ match }) {
 						onChange={value => setDynamicValue(value)}
 						marketOpen={search.realTimeQuote.price_open}
 					/>
-					<Scope onChange={scope => setScope(scope)} />
-					<Stats summary={search.realTimeQuote} />
-					<NewsFeed companyName={search.realTimeQuote.name} />
+					<div className="list">
+						<Scope onChange={scope => setScope(scope)} />
+						<Stats summary={search.realTimeQuote} />
+						<NewsFeed companyName={search.realTimeQuote.name} />
+					</div>
 				</>
 			)}
 		</>
