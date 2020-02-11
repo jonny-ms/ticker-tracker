@@ -10,6 +10,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import { Stats } from "./Stats";
 import { NewsFeed } from "./NewsFeed";
+import { useScrollPosition } from "../../hooks/useScrollPosition";
 
 export function Quote({ match }) {
 	const [search, setSearch] = React.useState({
@@ -30,6 +31,15 @@ export function Quote({ match }) {
 	const [dynamicValue, setDynamicValue] = React.useState(null);
 
 	const [isWatched, setIsWatched] = React.useState(false);
+	const [showOnScroll, setShowOnScroll] = React.useState(false);
+
+	useScrollPosition(
+		({ prevPos, currPos }) => {
+			const show = currPos.y < -50;
+			if (show !== showOnScroll) setShowOnScroll(show);
+		},
+		[showOnScroll]
+	);
 
 	//!Real-time data for header (will include all initial data, ie. stats, news, etc.)
 	React.useEffect(() => {
@@ -162,7 +172,7 @@ export function Quote({ match }) {
 
 	return (
 		<>
-			<nav>
+			<nav className="nav-quote">
 				{/* //Todo: onCLick make backend post, state of isWatched should default to true if stock is watched, banner should let user know it has been added to backend */}
 
 				<img
@@ -172,6 +182,13 @@ export function Quote({ match }) {
 						setIsWatched(!isWatched);
 					}}
 				/>
+				{showOnScroll && (
+					<p>
+						<span>{search.realTimeQuote.symbol} </span>
+						<span>{search.realTimeQuote.price} </span>
+						<span>{search.realTimeQuote.currency}</span>
+					</p>
+				)}
 				{/* //Todo: onCLick goBack() */}
 				<img src="/images/close-cross.svg" alt="back-button" />
 			</nav>

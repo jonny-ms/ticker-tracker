@@ -177,3 +177,31 @@ img {
 		}
 	}
 }
+
+.news {
+	align-content: center;
+	width: 90%;
+	&-article {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: 1em;
+		margin-bottom:1em;
+		&-thumbnail {
+			width: 80%;
+			border-radius: 10px;
+		}
+	}
+}
+
+.nav-quote {
+	position: fixed;
+	top: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5%;
+	width: 100%;
+	z-index: 1;
+	background-color: #fff;
+}
