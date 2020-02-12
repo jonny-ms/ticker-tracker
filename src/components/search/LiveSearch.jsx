@@ -1,6 +1,7 @@
 import * as React from "react";
+import api from "../../api";
+
 import { SearchBar } from "./SearchBar";
-// import axios from "axios";
 import { autoComplete } from "../../db/mockApi";
 
 export function LiveSearch({ handleSearch }) {
@@ -27,15 +28,8 @@ export function LiveSearch({ handleSearch }) {
 		prev.current = term;
 
 		//!Commented out axios call
-		// axios({
-		// 	method: "get",
-		// 	url: `https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/auto-complete?lang=en&region=US&query=${term}`,
-		// 	responseType: "stream",
-		// 	headers: {
-		// 		"x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
-		// 		"x-rapidapi-key": process.env.REACT_APP_YAHOO_FINANCE_API_KEY
-		// 	}
-		// }).then(({ data }) => {
+		// api.yahooFinanceApi.getAutocomplete(term)
+		// .then(({ data }) => {
 		// 	console.log(data.ResultSet.Result);
 
 		// 	handleSearch({

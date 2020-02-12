@@ -1,5 +1,5 @@
 import * as React from "react";
-// import axios from "axios";
+import api from "../../api";
 import { QuoteHeader } from "./QuoteHeader";
 import { Loading } from "../Loading";
 import { Chart } from "./Chart";
@@ -35,7 +35,7 @@ export function Quote({ match }) {
 
 	useScrollPosition(
 		({ prevPos, currPos }) => {
-			const show = currPos.y < -50;
+			const show = currPos.y < -70;
 			if (show !== showOnScroll) setShowOnScroll(show);
 		},
 		[showOnScroll]
@@ -52,35 +52,33 @@ export function Quote({ match }) {
 
 		//!Commented out axios call
 		//*Real time quote with summary
-		// axios({
-		// 	method: "get",
-		// 	url: `https://api.worldtradingdata.com/api/v1/stock?symbol=${search.term}&api_token=${process.env.REACT_APP_WORLD_TRADING_API_KEY}`
-		// }).then(({ data }) => {
-		// 	setSearch(search => ({
-		// 		...search,
-		// 		realTimeQuote: data.data[0],
-		// 		loading: false
-		// 	}));
-		// });
+
+		api.worldTradingApi.getRealTimeQuote(search.term).then(({ data }) => {
+			setSearch(search => ({
+				...search,
+				realTimeQuote: data.data[0],
+				loading: false
+			}));
+		});
 
 		//!Mock fetch
 
-		const awaitFunc = () => {
-			return new Promise(() => {
-				setTimeout(() => {
-					setSearch(search => ({
-						...search,
-						realTimeQuote: quote,
-						loading: false
-					}));
-				}, 2000);
-			});
-		};
+		// const awaitFunc = () => {
+		// 	return new Promise(() => {
+		// 		setTimeout(() => {
+		// 			setSearch(search => ({
+		// 				...search,
+		// 				realTimeQuote: quote,
+		// 				loading: false
+		// 			}));
+		// 		}, 2000);
+		// 	});
+		// };
 
-		async function asyncCall() {
-			await awaitFunc();
-		}
-		asyncCall();
+		// async function asyncCall() {
+		// 	await awaitFunc();
+		// }
+		// asyncCall();
 	}, [search.term]);
 
 	//!Scoped data for chart
@@ -92,75 +90,73 @@ export function Quote({ match }) {
 		console.log("in scoped data request", scope, search.chartData);
 
 		//!Commented out axios call
-		// if (["1D", "1W"].includes(scope.name)) {
-		// 	//*Intraday Data for 1D, and 1W
+		if (["1D", "1W"].includes(scope.name)) {
+			//*Intraday Data for 1D, and 1W
 
-		// 	axios({
-		// 		method: "get",
-		// 		url: `https://intraday.worldtradingdata.com/api/v1/intraday?symbol=${search.term}&range=${scope.apiRange}&interval=${scope.apiInterval}&api_token=${process.env.REACT_APP_WORLD_TRADING_API_KEY}`
-		// 	}).then(({ data }) => {
-		// 		console.log("intraday resp", data.intraday);
+			api.worldTradingApi
+				.getIntradayData(search.term, scope.apiRange, scope.apiInterval)
+				.then(({ data }) => {
+					console.log("intraday resp", data.intraday);
 
-		// 		const updatedChartData = {
-		// 			...search.chartData,
-		// 			[scope.name]: data.intraday
-		// 		};
+					const updatedChartData = {
+						...search.chartData,
+						[scope.name]: data.intraday
+					};
 
-		// 		setSearch(search => ({
-		// 			...search,
-		// 			chartData: updatedChartData
-		// 		}));
-		// 	});
-		// } else {
-		// 	//*Historical Data for 1M, 3M, 1Y, and 3Y scopes
+					setSearch(search => ({
+						...search,
+						chartData: updatedChartData
+					}));
+				});
+		} else {
+			//*Historical Data for 1M, 3M, 1Y, and 3Y scopes
 
-		// 	const date = moment()
-		// 		.subtract(scope.count, scope.unit)
-		// 		.format("YYYY-MM-DD");
+			const date = moment()
+				.subtract(scope.count, scope.unit)
+				.format("YYYY-MM-DD");
 
-		// 	axios({
-		// 		method: "get",
-		// 		url: `https://api.worldtradingdata.com/api/v1/history?symbol=${search.term}&date_from=${date}&api_token=${process.env.REACT_APP_WORLD_TRADING_API_KEY}`
-		// 	}).then(({ data }) => {
-		// 		console.log("history resp", data.history);
+			api.worldTradingApi
+				.getHistoricalData(search.term, date)
+				.then(({ data }) => {
+					console.log("history resp", data.history);
 
-		// 		const updatedChartData = {
-		// 			...search.chartData,
-		// 			[scope.name]: data.history
-		// 		};
+					const updatedChartData = {
+						...search.chartData,
+						[scope.name]: data.history
+					};
 
-		// 		setSearch(search => ({
-		// 			...search,
-		// 			chartData: updatedChartData
-		// 		}));
-		// 	});
-		// }
+					setSearch(search => ({
+						...search,
+						chartData: updatedChartData
+					}));
+				});
+		}
 
 		//!Mock fetch
 
-		const data = scope.name === "1D" ? intraOneDay : intraOneWeek;
+		// const data = scope.name === "1D" ? intraOneDay : intraOneWeek;
 
-		const updatedChartData = {
-			...search.chartData,
-			[scope.name]: data
-		};
+		// const updatedChartData = {
+		// 	...search.chartData,
+		// 	[scope.name]: data
+		// };
 
-		const awaitFunc = () => {
-			return new Promise(() => {
-				setTimeout(() => {
-					setSearch(search => ({
-						...search,
-						chartData: updatedChartData,
-						loading: false
-					}));
-				}, 2000);
-			});
-		};
+		// const awaitFunc = () => {
+		// 	return new Promise(() => {
+		// 		setTimeout(() => {
+		// 			setSearch(search => ({
+		// 				...search,
+		// 				chartData: updatedChartData,
+		// 				loading: false
+		// 			}));
+		// 		}, 2000);
+		// 	});
+		// };
 
-		async function asyncCall() {
-			await awaitFunc();
-		}
-		asyncCall();
+		// async function asyncCall() {
+		// 	await awaitFunc();
+		// }
+		// asyncCall();
 	}, [scope]);
 
 	let watchLogoSrc = "/images/watch.svg";

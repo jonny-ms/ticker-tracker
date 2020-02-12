@@ -1,5 +1,5 @@
 import * as React from "react";
-import axios from "axios";
+import api from "../../api";
 
 export function NewsFeed({ companyName }) {
 	const [news, setNews] = React.useState([]);
@@ -10,14 +10,11 @@ export function NewsFeed({ companyName }) {
 	// 	return string.replace(regex, "").trim();
 	// };
 
-	// React.useEffect(() => {
-	// 	axios({
-	// 		method: "get",
-	// 		url: `https://newsapi.org/v2/everything?q=${companyName}&sortBy=publishedAt&page=1&excludeDomains=qq.com,inside.com.tw,droidsans.com&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`
-	// 	}).then(({ data }) => {
-	// 		setNews(data.articles);
-	// 	});
-	// }, []);
+	React.useEffect(() => {
+		api.newsApi.getEverythingByPublishedAt(companyName).then(({ data }) => {
+			setNews(data.articles);
+		});
+	}, []);
 
 	return (
 		<>
