@@ -1,5 +1,5 @@
 import * as React from "react";
-import { mockWatchlistDb, mockWatchlistData } from "../../db/mockApi";
+import mockApi from "../../db/mockApi";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -8,7 +8,7 @@ export function Watchlist() {
 	const [watchlistData, setWatchlistData] = React.useState([]);
 
 	React.useEffect(() => {
-		setWatchlistDb(mockWatchlistDb);
+		setWatchlistDb(mockApi.mockWatchlistDb);
 	}, []);
 
 	React.useEffect(() => {
@@ -21,7 +21,7 @@ export function Watchlist() {
 		// 	}`
 		// }).then(({ data }) => {
 		// setWatchlistData(data.data);
-		setWatchlistData(mockWatchlistData);
+		setWatchlistData(mockApi.mockWatchlistData);
 		// });
 	}, [watchlistDb]);
 

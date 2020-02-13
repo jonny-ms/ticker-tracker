@@ -1,7 +1,6 @@
 import * as React from "react";
-import axios from "axios";
-import { mockPortfolio, mockPortfolioData } from "../../db/mockApi";
-import moment from "moment";
+import api from "../../api";
+import mockApi from "../../db/mockApi";
 import { Link } from "react-router-dom";
 
 export function Portfolio() {
@@ -17,7 +16,7 @@ export function Portfolio() {
 	React.useEffect(() => {
 		//! Backend call for user portfolio
 		//Get all positions where id = user_id
-		setPortfolioDb(mockPortfolio);
+		setPortfolioDb(mockApi.mockPortfolio);
 	}, []);
 
 	React.useEffect(() => {
@@ -25,11 +24,12 @@ export function Portfolio() {
 
 		//! Api call
 		//Make API call for realtime data of all tickers belonging to user
-		// const searchTerm = portfolioDb
-		// .map(position => {
-		// return position.ticker;
-		// })
-		// .join();
+		const searchTerm = portfolioDb
+			.map(position => {
+				return position.ticker;
+			})
+			.join();
+
 		// axios({
 		// method: "get",
 		// url: `https://api.worldtradingdata.com/api/v1/stock?symbol=${searchTerm}&api_token=${process.env.REACT_APP_WORLD_TRADING_API_KEY}`
@@ -38,7 +38,7 @@ export function Portfolio() {
 
 		for (let i in portfolioDb) {
 			// const result = data.data[i];
-			const result = mockPortfolioData[i];
+			const result = mockApi.mockPortfolioData[i];
 			portfolioDb[i] = {
 				name: result.name,
 				current_price: Number(result.price),

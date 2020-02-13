@@ -82,8 +82,6 @@ const autoComplete = [
   }
 ];
 
-exports.autoComplete = autoComplete
-
 //Sample response from WorldTradingApi for Real Time Market Data request with 'GOOG' as query param
 const GOOG = {
   '52_week_high': "1335.53",
@@ -111,8 +109,6 @@ const GOOG = {
   volume: "916409",
   volume_avg: "1243675"
 };
-
-exports.quote = GOOG;
 
 const historicalData = {
   '2019-01-02': {open: "1016.57", close: "1045.85", high: "1052.32", low: "1015.71", volume: "1532608"},
@@ -345,7 +341,6 @@ const historicalData = {
   '2019-11-25': {open: "1299.18", close: "1306.69", high: "1311.31", low: "1298.13", volume: "1036487"},
   '2019-11-26': {open: "1309.86", close: "1313.55", high: "1314.76", low: "1305.09", volume: "963871"}
 }
-exports.historicalData = historicalData
 
 const intraOneDay = {
   '2019-11-27 09:30:00': {open: "1315.00", close: "1313.87", high: "1315.90", low: "1313.34", volume: "52310"},
@@ -428,8 +423,6 @@ const intraOneDay = {
   '2019-11-27 15:55:00': {open: "1312.12", close: "1313.50", high: "1313.50", low: "1311.03", volume: "46668"}
 }
 
-exports.intraOneDay = intraOneDay
-
 const intraOneWeek = {
 
   '2019-11-21 09:30:00': {open: "1301.70", close: "1296.87", high: "1301.92", low: "1293.00", volume: "206220"},
@@ -470,9 +463,6 @@ const intraOneWeek = {
 
 }
 
-exports.intraOneWeek = intraOneWeek
-
-
 const mockPortfolio = [{
 
   ticker: 'GOOG',
@@ -487,7 +477,6 @@ const mockPortfolio = [{
   price: 125.22,
   date: '2019-06-05'
 }]
-exports.mockPortfolio = mockPortfolio
 
 const mockPortfolioData = [{
   '52_week_high': "1441.78",
@@ -541,10 +530,8 @@ timezone_name: "America/New_York",
 volume: "21589170",
 volume_avg: "22321950"
 }]
-exports.mockPortfolioData = mockPortfolioData
 
 const mockWatchlistDb = ['AAPL', 'AMZN']
-exports.mockWatchlistDb = mockWatchlistDb
 
 const mockWatchlistData = [{
   '52_week_high': "327.85",
@@ -599,4 +586,14 @@ const mockWatchlistData = [{
   volume_avg: "3250616"
 }]
 
-exports.mockWatchlistData = mockWatchlistData
+export default {
+  autoComplete,
+  GOOG,
+  historicalData,
+  intraOneDay,
+  intraOneWeek,
+  mockPortfolioData,
+  mockPortfolio,
+  mockWatchlistDb,
+  mockWatchlistData
+}

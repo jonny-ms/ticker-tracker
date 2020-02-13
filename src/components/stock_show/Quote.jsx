@@ -4,7 +4,7 @@ import { QuoteHeader } from "./QuoteHeader";
 import { Loading } from "../Loading";
 import { Chart } from "./Chart";
 import { Scope } from "./Scope";
-import { quote, intraOneDay, intraOneWeek } from "../../db/mockApi";
+import mockApi from "../../db/mockApi";
 import { AddStock } from "../add_stock/AddStock";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -52,33 +52,22 @@ export function Quote({ match }) {
 
 		//!Commented out axios call
 		//*Real time quote with summary
-
-		api.worldTradingApi.getRealTimeQuote(search.term).then(({ data }) => {
-			setSearch(search => ({
-				...search,
-				realTimeQuote: data.data[0],
-				loading: false
-			}));
-		});
-
-		//!Mock fetch
-
-		// const awaitFunc = () => {
-		// 	return new Promise(() => {
-		// 		setTimeout(() => {
-		// 			setSearch(search => ({
-		// 				...search,
-		// 				realTimeQuote: quote,
-		// 				loading: false
-		// 			}));
-		// 		}, 2000);
-		// 	});
-		// };
-
-		// async function asyncCall() {
-		// 	await awaitFunc();
-		// }
-		// asyncCall();
+		process.env.REACT_APP_STAGE === "dev"
+			? api.worldTradingApi.getRealTimeQuote(search.term).then(({ data }) => {
+					setSearch(search => ({
+						...search,
+						realTimeQuote: data.data[0],
+						loading: false
+					}));
+			  })
+			: //!Mock fetch
+			  setTimeout(() => {
+					setSearch(search => ({
+						...search,
+						realTimeQuote: mockApi.GOOG,
+						loading: false
+					}));
+			  }, 1000);
 	}, [search.term]);
 
 	//!Scoped data for chart
@@ -89,25 +78,36 @@ export function Quote({ match }) {
 
 		console.log("in scoped data request", scope, search.chartData);
 
-		//!Commented out axios call
 		if (["1D", "1W"].includes(scope.name)) {
 			//*Intraday Data for 1D, and 1W
 
-			api.worldTradingApi
-				.getIntradayData(search.term, scope.apiRange, scope.apiInterval)
-				.then(({ data }) => {
-					console.log("intraday resp", data.intraday);
+			process.env.REACT_APP_STAGE === "dev"
+				? api.worldTradingApi
+						.getIntradayData(search.term, scope.apiRange, scope.apiInterval)
+						.then(({ data }) => {
+							console.log("intraday resp", data.intraday);
 
-					const updatedChartData = {
-						...search.chartData,
-						[scope.name]: data.intraday
-					};
+							const updatedChartData = {
+								...search.chartData,
+								[scope.name]: data.intraday
+							};
 
-					setSearch(search => ({
-						...search,
-						chartData: updatedChartData
-					}));
-				});
+							setSearch(search => ({
+								...search,
+								chartData: updatedChartData
+							}));
+						})
+				: //!Mock fetch
+				  setTimeout(() => {
+						setSearch(search => ({
+							...search,
+							chartData: {
+								...search.chartData,
+								[scope.name]: mockApi.intraOneDay
+							},
+							loading: false
+						}));
+				  }, 1000);
 		} else {
 			//*Historical Data for 1M, 3M, 1Y, and 3Y scopes
 
@@ -115,48 +115,31 @@ export function Quote({ match }) {
 				.subtract(scope.count, scope.unit)
 				.format("YYYY-MM-DD");
 
-			api.worldTradingApi
-				.getHistoricalData(search.term, date)
-				.then(({ data }) => {
-					console.log("history resp", data.history);
+			process.env.REACT_APP_STAGE === "dev"
+				? api.worldTradingApi
+						.getHistoricalData(search.term, date)
+						.then(({ data }) => {
+							console.log("history resp", data.history);
 
-					const updatedChartData = {
-						...search.chartData,
-						[scope.name]: data.history
-					};
+							const updatedChartData = {
+								...search.chartData,
+								[scope.name]: data.history
+							};
 
-					setSearch(search => ({
-						...search,
-						chartData: updatedChartData
-					}));
-				});
+							setSearch(search => ({
+								...search,
+								chartData: updatedChartData
+							}));
+						})
+				: //!Mock fetch
+				  setTimeout(() => {
+						setSearch(search => ({
+							...search,
+							chartData: mockApi.intraOneWeek,
+							loading: false
+						}));
+				  }, 1000);
 		}
-
-		//!Mock fetch
-
-		// const data = scope.name === "1D" ? intraOneDay : intraOneWeek;
-
-		// const updatedChartData = {
-		// 	...search.chartData,
-		// 	[scope.name]: data
-		// };
-
-		// const awaitFunc = () => {
-		// 	return new Promise(() => {
-		// 		setTimeout(() => {
-		// 			setSearch(search => ({
-		// 				...search,
-		// 				chartData: updatedChartData,
-		// 				loading: false
-		// 			}));
-		// 		}, 2000);
-		// 	});
-		// };
-
-		// async function asyncCall() {
-		// 	await awaitFunc();
-		// }
-		// asyncCall();
 	}, [scope]);
 
 	let watchLogoSrc = "/images/watch.svg";

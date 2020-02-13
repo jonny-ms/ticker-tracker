@@ -2,7 +2,7 @@ import * as React from "react";
 import api from "../../api";
 
 import { SearchBar } from "./SearchBar";
-import { autoComplete } from "../../db/mockApi";
+import mockApi from "../../db/mockApi";
 
 export function LiveSearch({ handleSearch }) {
 	const [term, setTerm] = React.useState("");
@@ -48,7 +48,7 @@ export function LiveSearch({ handleSearch }) {
 			return new Promise(() => {
 				setTimeout(() => {
 					handleSearch({
-						results: autoComplete,
+						results: mockApi.autoComplete,
 						loading: false
 					});
 				}, 2000);
