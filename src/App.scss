@@ -203,3 +203,54 @@ img {
 
 // .nav-quote {
 // }
+
+.login {
+	margin-top: 10%;
+	margin-left: 5%;
+	margin-right: 5%;
+	text-align: left;
+	font-weight: bold;
+	font-size: 1em;
+	color: $grey;
+	&-form {
+		height: $form-height;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	&-input {
+		height: $form-input-height;
+		font-size: 150%;
+		margin-bottom: 10px;
+	}
+	&-button {
+		width: 90%;
+		align-self: center;
+		border-radius: 100px;
+		border: none;
+		height: $form-button-height;
+		background-color: rgba(197, 197, 197, 0.561);
+		color: #fff;
+		font-weight: bold;
+		&-is-active {
+			@extend .login-button;
+			background-color: #76b3b4;
+		}
+	}
+}
+
+.register {
+	@extend .login;
+	&-form {
+		@extend .login-form;
+	}
+	&-input {
+		@extend .login-input;
+	}
+	&-button {
+		@extend .login-button;
+		&-is-active {
+			@extend .login-button-is-active;
+		}
+	}
+}
