@@ -5,6 +5,8 @@ import "./App.scss";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { PositionShow } from "./components/portfolio/PositionShow";
 import { Search } from "./components/search/Search";
+import { Login } from "./components/Login";
+import { Register } from "./components/Register";
 
 function App() {
 	return (
@@ -19,6 +21,8 @@ function App() {
 					<Route path="/stocks/:ticker" component={Quote} />
 					{/* Note position show path should use user portfolio position id */}
 					<Route path="/position/:ticker" component={PositionShow} />
+					<Route path="/login" component={Login} />
+					<Route path="/registration" component={Register} />
 				</Switch>
 			</div>
 		</Router>

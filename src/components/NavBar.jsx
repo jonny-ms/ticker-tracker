@@ -5,7 +5,9 @@ export function NavBar() {
 	return (
 		<>
 			<nav>
-				<img src="/images/user.svg" alt="user-profile" />
+				<Link to="/login">
+					<img src="/images/user.svg" alt="user-profile" />
+				</Link>
 				<Link to="/">
 					<h1>Tickr</h1>
 				</Link>

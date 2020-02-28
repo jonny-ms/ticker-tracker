@@ -54,9 +54,10 @@ export function Quote({ match }) {
 		//*Real time quote with summary
 		process.env.REACT_APP_STAGE === "dev"
 			? api.worldTradingApi.getRealTimeQuote(search.term).then(({ data }) => {
+					console.log(data);
 					setSearch(search => ({
 						...search,
-						realTimeQuote: data.data[0],
+						realTimeQuote: data.quote[0],
 						loading: false
 					}));
 			  })
