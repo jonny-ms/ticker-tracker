@@ -13,23 +13,20 @@ const yahooFinanceApi = {
 		})
 };
 
-const worldTradingBase = axios.create({
-	baseURL: "https://api.worldtradingdata.com/api/v1/"
-});
+// const worldTradingBase = axios.create({
+// 	baseURL: "https://api.worldtradingdata.com/api/v1/"
+// });
 
 const worldTradingApiKey = process.env.REACT_APP_WORLD_TRADING_API_KEY;
 
 const worldTradingApi = {
-	getRealTimeQuote: symbol =>
-		worldTradingBase.get("/stock", {
-			params: { symbol, api_token: worldTradingApiKey }
-		}),
+	getRealTimeQuote: symbol => axios.get(`/stock/${symbol}`),
 	getIntradayData: (symbol, range, interval) =>
 		axios.get("https://intraday.worldtradingdata.com/api/v1/intraday", {
 			params: { symbol, range, interval, api_token: worldTradingApiKey }
 		}),
 	getHistoricalData: (symbol, date) =>
-		worldTradingBase.get("/history", {
+		axios.get("/history", {
 			params: { symbol, date_from: date, api_token: worldTradingApiKey }
 		})
 };
