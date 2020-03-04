@@ -1,33 +1,18 @@
 import * as React from "react";
-import mockApi from "../../db/mockApi";
-import axios from "axios";
 import { Link } from "react-router-dom";
 
-export function Watchlist() {
-	const [watchlistDb, setWatchlistDb] = React.useState([]);
-	const [watchlistData, setWatchlistData] = React.useState([]);
+export function Watchlist({ watchlistItems, realTimeQuotes }) {
+	let watchlistData = [];
 
-	React.useEffect(() => {
-		setWatchlistDb(mockApi.mockWatchlistDb);
-	}, []);
-
-	React.useEffect(() => {
-		if (!watchlistDb[0]) return;
-
-		// axios({
-		// 	method: "get",
-		// 	url: `https://api.worldtradingdata.com/api/v1/stock?symbol=${watchlistDb.join()}&api_token=${
-		// 		process.env.REACT_APP_WORLD_TRADING_API_KEY
-		// 	}`
-		// }).then(({ data }) => {
-		// setWatchlistData(data.data);
-		setWatchlistData(mockApi.mockWatchlistData);
-		// });
-	}, [watchlistDb]);
+	if (realTimeQuotes[0]) {
+		watchlistData = realTimeQuotes.filter(stock => {
+			return watchlistItems.includes(stock.symbol);
+		});
+	}
 
 	return (
 		<>
-			{watchlistDb[0] && (
+			{watchlistItems[0] && (
 				<section className="portfolio">
 					<h2>Watchlist</h2>
 					<hr />

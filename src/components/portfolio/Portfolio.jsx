@@ -1,10 +1,10 @@
+// TODO refactor conditional styling
+
 import * as React from "react";
-import api from "../../api";
-import mockApi from "../../db/mockApi";
 import { Link } from "react-router-dom";
 
-export function Portfolio() {
-	const [portfolioDb, setPortfolioDb] = React.useState([]);
+export function Portfolio({ portfolio, realTimeQuotes }) {
+	const [portfolioData, setPortfolioData] = React.useState([]);
 	const [scope, setScope] = React.useState("Daily");
 	const [marketValue, setMarketValue] = React.useState(null);
 	const [portfolioCost, setPortfolioCost] = React.useState(null);
@@ -14,45 +14,27 @@ export function Portfolio() {
 	);
 
 	React.useEffect(() => {
-		//! Backend call for user portfolio
-		//Get all positions where id = user_id
-		setPortfolioDb(mockApi.mockPortfolio);
-	}, []);
+		if (realTimeQuotes.length === 0) return;
 
-	React.useEffect(() => {
-		if (portfolioDb.length === 0) return;
-
-		//! Api call
-		//Make API call for realtime data of all tickers belonging to user
-		const searchTerm = portfolioDb
-			.map(position => {
-				return position.ticker;
-			})
-			.join();
-
-		// axios({
-		// method: "get",
-		// url: `https://api.worldtradingdata.com/api/v1/stock?symbol=${searchTerm}&api_token=${process.env.REACT_APP_WORLD_TRADING_API_KEY}`
-		// }).then(({ data }) => {
-		// console.log(data.data);
-
-		for (let i in portfolioDb) {
-			// const result = data.data[i];
-			const result = mockApi.mockPortfolioData[i];
-			portfolioDb[i] = {
-				name: result.name,
-				current_price: Number(result.price),
-				day_change: Number(result.day_change),
-				change_pct: Number(result.change_pct),
-				currency: result.currency,
-				stock_exchange_short: result.stock_exchange_short,
-				...portfolioDb[i]
-			};
-		}
+		const data = realTimeQuotes.map(stock => {
+			let position = portfolio[stock.symbol];
+			console.log(position);
+			return (stock = {
+				name: stock.name,
+				current_price: Number(stock.price),
+				day_change: Number(stock.day_change),
+				change_pct: Number(stock.change_pct),
+				currency: stock.currency,
+				stock_exchange_short: stock.stock_exchange_short,
+				...position
+			});
+		});
+		console.log(data);
+		setPortfolioData(data);
 
 		setMarketValue(
 			Math.round(
-				portfolioDb.reduce((a, b) => {
+				data.reduce((a, b) => {
 					return a + b.current_price * b.amount;
 				}, 0) * 100
 			) / 100
@@ -60,7 +42,7 @@ export function Portfolio() {
 
 		setPortfolioCost(
 			Math.round(
-				portfolioDb.reduce((a, b) => {
+				data.reduce((a, b) => {
 					return a + b.price * b.amount;
 				}, 0) * 100
 			) / 100
@@ -68,7 +50,7 @@ export function Portfolio() {
 
 		setPortfolioDayChange(
 			Math.round(
-				portfolioDb.reduce((a, b) => {
+				data.reduce((a, b) => {
 					return a + b.day_change * b.amount;
 				}, 0) * 100
 			) / 100
@@ -76,22 +58,20 @@ export function Portfolio() {
 
 		setPortfolioPercentChange(
 			Math.round(
-				portfolioDb.reduce((a, b) => {
+				data.reduce((a, b) => {
 					return a + b.change_pct;
 				}, 0) * 100
 			) / 100
 		);
-
-		console.log("portfolioDb", portfolioDb);
-		// });
-	}, [portfolioDb]);
+	}, [realTimeQuotes]);
+	console.log("portfolio", portfolioData);
 
 	// let tabStyle = "tab";
 	// scope === "Daily" ? (tabStyle += " daily") : (tabStyle += " open");
 
 	return (
 		<>
-			{portfolioDb[0] && portfolioDb[0].current_price && (
+			{portfolioData[0] && (
 				<section className="portfolio">
 					<h2>Portfolio</h2>
 					<hr />
@@ -171,7 +151,7 @@ export function Portfolio() {
 
 					{/* //! This section is the PortfolioList */}
 					<main>
-						{portfolioDb.map(position => {
+						{portfolioData.map(position => {
 							/* //! This article is a PortfolioItem */
 							if (scope === "Daily") {
 								return (
@@ -181,7 +161,7 @@ export function Portfolio() {
 												pathname: `/position/${position.ticker}`,
 												state: { position }
 											}}
-											key={position.ticker}
+											key={position.id}
 										>
 											<article>
 												<div>
@@ -234,9 +214,9 @@ export function Portfolio() {
 												pathname: `/position/${position.ticker}`,
 												state: { position }
 											}}
-											key={position.ticker}
+											key={position.id}
 										>
-											<article key={position.ticker}>
+											<article>
 												<div>
 													<h4>{position.name}</h4>
 													{position.current_price - position.price > 0 && (
