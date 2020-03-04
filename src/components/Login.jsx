@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Cookie from "js-cookie";
 
-export function Login() {
+export function Login({ history }) {
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 
@@ -14,10 +15,12 @@ export function Login() {
 				email,
 				password
 			})
-			.then(resp => {
-				console.log(resp);
+			.then(({ data }) => {
 				// store JWT to a global state (redux or useContext?)
+				console.log(data.access_token);
+				Cookie.set("tickr-token", data.access_token);
 				// redirection to root
+				history.push("/");
 			})
 			.catch(err => {
 				console.log(err.message);

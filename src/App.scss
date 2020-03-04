@@ -254,3 +254,31 @@ img {
 		}
 	}
 }
+
+.homepage-prompt {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	&-box {
+		width: 80%;
+		margin-top: 1vh;
+		margin-bottom: 1vh;
+		padding: 1vh 1vh 1vh 3vh;
+		border: 1px solid $grey;
+		border-radius: 15px;
+		box-shadow: 5px 5px 5px 0px rgba(197, 197, 197, 0.561);
+		display: flex;
+		justify-content: space-between;
+		text-align: left;
+		div	{
+			width: 100%;
+			h3,h4,h5,h6 {
+				margin: 1vh 0vh 1vh 0vh;
+			}
+		}
+		img {
+			width: 6vh;
+		}
+	}
+}
